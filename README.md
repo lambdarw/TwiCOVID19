@@ -25,3 +25,5 @@ avg. \# words per tweet | 23
 \# Users | 7,489
 \# Forwarding tweets of users | 15,350
 Density of user forwarding network | 0.0274%
+
+(“#” DENOTES “NUMBER OF”)
