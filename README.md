@@ -2,7 +2,9 @@
 
 ## Data Collection
 We utilized a web crawler to climb Twitter to build a TwiCOVID19 dataset of the COVID-19 pandemic.
-We replaced URLs and user handles (@user-name) with the symbols “<url>” and “<user>”
+
+We replaced URLs and user handles (@user-name) with the symbols “\<url\>” and “\<user\>”
+
 We label tweets with positive, neutral, or negative polarities using TextBlob
 
 # Data files
