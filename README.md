@@ -1,4 +1,4 @@
-# TwiCOVID19
+# TwiCOVID19 Dataset
 
 ## Data Collection
 We utilized a web crawler to climb Twitter to build a TwiCOVID19 dataset of the COVID-19 pandemic.
@@ -6,6 +6,8 @@ We utilized a web crawler to climb Twitter to build a TwiCOVID19 dataset of the 
 We replaced URLs and user handles (@user-name) with the symbols “\<url\>” and “\<user\>”
 
 We label tweets with positive, neutral, or negative polarities using TextBlob
+
+The timeframe of the TwiCOVID19 dataset is from 2021-01-01 00:00:00 to 2021-12-31 23:59:59.
 
 # Data files
 1) covid19_tweet.csv desipts information of tweets.
