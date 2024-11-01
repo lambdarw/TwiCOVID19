@@ -32,7 +32,7 @@ avg. \# words per tweet | 23
 Density of user forwarding network | 0.0274%
 
 ## Citation
-Please cite our repository if you use METER in your work.
+Please cite our repository if you use TRESP in your work.
 ```bibtex
 @article{zhang2024modeling,
   title={Modeling group-level public sentiment in social networks through topic and role enhancement},
