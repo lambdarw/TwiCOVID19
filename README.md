@@ -30,3 +30,16 @@ avg. \# words per tweet | 23
 \# Users | 7,489
 \# Forwarding tweets of users | 15,350
 Density of user forwarding network | 0.0274%
+
+## Citation
+Please cite our repository if you use METER in your work.
+```bibtex
+@article{zhang2024modeling,
+  title={Modeling group-level public sentiment in social networks through topic and role enhancement},
+  author={Zhang, Ruwen and Liu, Bo and Cao, Jiuxin and Zhao, Hantao and Sun, Xuheng and Liu, Yan and Sun, Xiangguo},
+  journal={Knowledge-Based Systems},
+  pages={112594},
+  year={2024},
+  publisher={Elsevier}
+}
+```
