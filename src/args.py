@@ -5,11 +5,11 @@ class Args():
 
     input_size = 1
     output_size = 1
-    bert_size = 768  # topic_embed的长度
-    skep_size = 1024  # text_embed的长度
+    bert_size = 768  # topic_embed
+    skep_size = 1024  # text_embed
 
-    model_name = 'Ours'  # todo
+    model_name = 'Ours'
     target_series = 'neg'  # todo: ['neu', 'pos', 'neg']
-    seq_len = 50  # 时间窗长度  # todo: [10, 30, 50]
-    k = 15  # 聚类簇个数  # todo: [3, 5, 7, 9]
-    gpu = '0'  # todo
+    seq_len = 50  # time window length  # todo: [10, 30, 50]
+    k = 3  # clusters number  # todo: [3, 5, 7, 9]
+    gpu = '0'
