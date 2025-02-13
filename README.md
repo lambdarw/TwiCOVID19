@@ -4,13 +4,6 @@
 ## Overview
 TRESP is a group-level public sentiment prediction model, that predicts emotional scores for positive, negative, and neutral emotions. Additionally, the prediction range can be refined by adjusting the size of the time window.
 
-<div align=center>
-    <img src="figs/framework.png" width="600px">
-</div>
-<div align=center>
-Figure 1: The framework of TRESP.
-</div>
-
 
 ### Dataset
 We evaluate our method on the TwiCovid19 and [PHEME](https://www.kaggle.com/datasets/usharengaraju/pheme-dataset) dataset.
