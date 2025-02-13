@@ -1,35 +1,32 @@
-# TwiCOVID19 Dataset
+## TRESP: Modeling Group-level Public Sentiment in Social Networks through Topic and Role Enhancement
 
-## Data Collection
-We utilized a web crawler to climb Twitter to build a TwiCOVID19 dataset of the COVID-19 pandemic.
 
-We replaced URLs and user handles (@user-name) with the symbols “\<url\>” and “\<user\>”
+## Overview
+TRESP is a group-level public sentiment prediction model, that predicts emotional scores for positive, negative, and neutral emotions. Additionally, the prediction range can be refined by adjusting the size of the time window.
 
-We label tweets with positive, neutral, or negative polarities using TextBlob
+<div align=center>
+    <img src="figs/framework.png" width="600px">
+</div>
+<div align=center>
+Figure 1: The framework of TRESP.
+</div>
 
-The timeframe of the TwiCOVID19 dataset is from 2021-01-01 00:00:00 to 2021-12-31 23:59:59.
 
-## Data files
-1) covid19_tweet.csv desipts information of tweets.
-2) covid19_user.csv desipts information of users.
+### Dataset
+We evaluate our method on the TwiCovid19 and [PHEME](https://www.kaggle.com/datasets/usharengaraju/pheme-dataset) dataset.
 
-## Data Statistics
-1) Event tags: #covid19, #covid-19, #coronaviruspandemic, #coronavirus, and others.
-2) Tweet information: tweet ID, content, posting time, user ID, tag, number of retweets, number of favorited, number of replies, source tweet ID (unique field of retweets), and sentiment label.
-3) User information: user ID, gender, nickname, number of followers, number of friends, number of favorites, and number of users’ tweets.
 
-Here is the statistics of TwiCOVID19 dataset (“#” DENOTES “NUMBER OF”):
+## Quick Start
+**Step1: Model Training**
+```python
+python train.py
+```
 
-Statistic | TwiCOVID19
----- | -----
-\# Tweets | 17,675 5
-\# Positive tweets | 10,052
-\# Neutral tweets | 3,999
-\# Negative tweets | 3,624
-avg. \# words per tweet | 23
-\# Users | 7,489
-\# Forwarding tweets of users | 15,350
-Density of user forwarding network | 0.0274%
+**Step2: Model Testing**
+```python
+python test.py
+```
+
 
 ## Citation
 Please cite our repository if you use TRESP in your work.
