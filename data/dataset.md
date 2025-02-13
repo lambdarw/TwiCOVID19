@@ -10,8 +10,8 @@ We label tweets with positive, neutral, or negative polarities using TextBlob
 The timeframe of the TwiCOVID19 dataset is from 2021-01-01 00:00:00 to 2021-12-31 23:59:59.
 
 ## Data files
-1) covid19_tweet.csv despite the information of tweets.
-2) covid19_user.csv despits the information of users.
+1) covid19_tweet.csv describes the information of tweets.
+2) covid19_user.csv describes the information of users.
 
 ## Data Statistics
 1) Event tags: #covid19, #covid-19, #coronaviruspandemic, #coronavirus, and others.
