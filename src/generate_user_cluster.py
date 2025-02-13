@@ -1,12 +1,8 @@
 import collections
-
 import networkx as nx
 import numpy as np
 import pandas as pd
 import torch
-# PyEcharts V1.9.0
-from pyecharts import options as opts
-from pyecharts.charts import Scatter, Page
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 
@@ -56,69 +52,6 @@ def cal_pr(tweet_df):
     return pr
 
 
-def get_cluster_scatter(user_vec, k, cluster_id, is_selected):
-    scatter = Scatter(init_opts=opts.InitOpts(width="800px", height="800px"))
-    scatter.set_global_opts(
-        title_opts=opts.TitleOpts(title="聚类散点图"),
-        xaxis_opts=opts.AxisOpts(type_="value", is_show=False),
-        yaxis_opts=opts.AxisOpts(type_="value", is_show=False),
-    )
-    for c in range(k):
-        idx = [cluster_id[i] == c and is_selected[i] for i in range(len(cluster_id))]
-        role_user_vec = user_vec[idx]
-        x = role_user_vec[:, 0].tolist()
-        y = role_user_vec[:, 1].tolist()
-        scatter.add_xaxis(xaxis_data=x)
-        scatter.add_yaxis(series_name='簇' + str(c), y_axis=y, symbol_size=5, label_opts=opts.LabelOpts(is_show=False))
-    # 也可以这么写：
-    # for c in range(k):
-    #     x = []
-    #     y = []
-    #     for i in range(len(cluster_id)):
-    #         if cluster_id[i] == c and is_selected[i]:
-    #             x.append(user_vec[i, 0])
-    #             y.append(user_vec[i, 1])
-    #     scatter.add_xaxis(xaxis_data=x)
-    #     scatter.add_yaxis(series_name='簇' + str(c), y_axis=y, symbol_size=5, label_opts=opts.LabelOpts(is_show=False))
-    return scatter
-
-
-def get_feature_scatter(user_df, k, cluster_id):
-    scatter_list = []
-    # ['followers_count', 'friends_count', 'listed_count', 'statuses_count', 'media_count']
-    feature_name = ['followers_count', 'friends_count', 'listed_count', 'statuses_count', 'media_count']
-    # [50, 20, 2, 100, 10]
-    feature_step = [50, 20, 2, 100, 10]
-    for feature_idx in range(len(feature_name)):
-        name = feature_name[feature_idx]
-        step = feature_step[feature_idx]
-        scatter = Scatter(init_opts=opts.InitOpts(width="800px", height="800px"))
-        scatter.set_global_opts(
-            title_opts=opts.TitleOpts(title=f"{name}特征分布图"),
-            xaxis_opts=opts.AxisOpts(type_="value"),
-            yaxis_opts=opts.AxisOpts(type_="value"),
-        )
-        for c in range(k):
-            user_idx = [i == c for i in cluster_id]
-            role_user_df = user_df.loc[user_idx, :]
-
-            dict = {}
-            max = np.max(role_user_df[name])
-            key_list = range(0, max + 1, step)
-            dict[0] = 0
-            for key in key_list:
-                dict[key + step] = 0
-            for _, row in role_user_df.iterrows():
-                dict[int(np.ceil(row[name] / step)) * step] += 1
-            new_dict = {np.log2(k): np.log2(v) for k, v in dict.items() if v != 0}
-
-            scatter.add_xaxis(xaxis_data=list(new_dict.keys()))
-            scatter.add_yaxis(series_name='簇' + str(c), y_axis=list(new_dict.values()), symbol_size=5,
-                              label_opts=opts.LabelOpts(is_show=False))
-        scatter_list.append(scatter)
-    return scatter_list
-
-
 def cluster(k):
     setup_seed(42)
     tweet_df = pd.read_csv('./dataset/covid19_tweet.csv', sep='\t', index_col=None, header=0,
@@ -158,39 +91,6 @@ def cluster(k):
     np.save(f'./train_test/covid19_cluster_k_{k}.npy', cluster_result)
 
 
-def visualize(k):
-    user_df = pd.read_csv('./dataset/covid19_user.csv', sep='\t', index_col=None, header=0,
-                          dtype={"user_id": str, "followers_count": np.int32, "friends_count": np.int32,
-                                 "listed_count": np.int32, "favourites_count": np.int32,
-                                 "statuses_count": np.int32, "media_count": np.int32, "created_at": str,
-                                 "name": str, "screen_name": str, "location": str, "description": str})
-    cluster_result = np.load(f'./train_test/covid19_cluster_k_{k}.npy', allow_pickle=True).item()
-    user_vec = cluster_result['user_vec']
-    raw_user_vec = cluster_result['raw_user_vec']
-    cluster_center = cluster_result['cluster_center']
-    cluster_id = cluster_result['cluster_id']
-    is_selected = cluster_result['is_selected']
-    page = Page()
-
-    # # 角色特征分布图
-    # feature_scatter_list = get_feature_scatter(user_df, k, cluster_id)
-    # for feature_scatter in feature_scatter_list:
-    #     page.add(feature_scatter)
-    # 角色特征统计量
-    for c in range(k):
-        idx = [i == c for i in cluster_id]
-        role_raw_user_vec = raw_user_vec[idx]
-        describe = pd.DataFrame(role_raw_user_vec).describe()
-        print(describe)
-
-    # 聚类散点图
-    dec_user_vec = PCA(n_components=2).fit_transform(user_vec)
-    cluster_scatter = get_cluster_scatter(dec_user_vec, k, cluster_id, is_selected)
-    page.add(cluster_scatter)
-
-    page.render(path=f'./visualize/covid19_cluster_k_{k}.html')
-
-
 def count(k):
     cluster_result = np.load(f'./train_test/covid19_cluster_k_{k}.npy', allow_pickle=True).item()
     cluster_id = cluster_result['cluster_id']
@@ -227,26 +127,4 @@ def check_equal(k):
 if __name__ == '__main__':
     # cluster(k=1)
     # cluster(k=3)
-    # cluster(k=5)
-    # cluster(k=7)
-    # cluster(k=9)
-    # cluster(k=11)
-    # cluster(k=13)
-    # cluster(k=15)
-    # count(k=1)
-    # count(k=3)
-    # count(k=5)
-    # count(k=7)
-    # count(k=9)
-    # count(k=11)
-    # count(k=13)
-    # count(k=15)
-    visualize(k=5)
-    # copy_backup(k=3)
-    # copy_backup(k=5)
-    # copy_backup(k=7)
-    # copy_backup(k=9)
-    # check_equal(k=3)
-    # check_equal(k=5)
-    # check_equal(k=7)
-    # check_equal(k=9)
+    cluster(k=5)
